@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="SmartShop.Application/SmartShop.Application.csproj" />
+  <Project Path="SmartShop.Domain/SmartShop.Domain.csproj" />
+  <Project Path="SmartShop.Infrastructure/SmartShop.Infrastructure.csproj" />
+  <Project Path="SmartShop.Web/SmartShop.Web.csproj" />
+</Solution>

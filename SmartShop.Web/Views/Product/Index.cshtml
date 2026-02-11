@@ -1,0 +1,39 @@
+﻿@model List<SmartShop.Domain.Entities.Product>
+@inject IStringLocalizer<SmartShop.Web.Resources.SharedResource> Localizer
+
+<h1>@Localizer["Products"]</h1>
+
+<a asp-action="Create">@Localizer["CreateNew"]</a>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Localizer["Name"]</th>
+            <th>@Localizer["SKU"]</th>
+            <th>@Localizer["Stock"]</th>
+            <th>@Localizer["SalePrice"]</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.SKU</td>
+            <td>@item.QuantityInStock</td>
+            <td>@item.SalePrice</td>
+            <td>
+                @if (User.IsInRole("Owner"))
+                {
+                    <a asp-action="Delete" asp-route-id="@item.Id">
+                        @Localizer["Delete"]
+                    </a>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

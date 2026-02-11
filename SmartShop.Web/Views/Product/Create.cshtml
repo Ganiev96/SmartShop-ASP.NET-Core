@@ -1,0 +1,32 @@
+﻿@model SmartShop.Application.DTOs.CreateProductDto
+
+<h2>Create Product</h2>
+
+<form asp-action="Create" method="post">
+    <div>
+        <label>Name</label>
+        <input asp-for="Name" />
+    </div>
+
+    <div>
+        <label>SKU</label>
+        <input asp-for="SKU" />
+    </div>
+
+    <div>
+        <label>Purchase Price</label>
+        <input asp-for="PurchasePrice" />
+    </div>
+
+    <div>
+        <label>Sale Price</label>
+        <input asp-for="SalePrice" />
+    </div>
+
+    <div>
+        <label>Minimum Stock</label>
+        <input asp-for="MinimumStockLevel" />
+    </div>
+
+    <button type="submit">Save</button>
+</form>

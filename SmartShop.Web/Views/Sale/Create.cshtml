@@ -1,0 +1,33 @@
+﻿@{
+    var products = ViewBag.Products as List<SmartShop.Domain.Entities.Product>;
+}
+
+<h2>Create Sale</h2>
+
+<form method="post">
+    <div>
+        <label>Product</label>
+        <select name="productId">
+            @foreach (var p in products)
+            {
+                <option value="@p.Id">
+                    @p.Name (Stock: @p.QuantityInStock)
+                </option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <label>Quantity</label>
+        <input name="quantity" type="number" />
+    </div>
+
+    <button type="submit">Sell</button>
+</form>
+
+<div style="color:red">
+    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+    {
+        <p>@error.ErrorMessage</p>
+    }
+</div>

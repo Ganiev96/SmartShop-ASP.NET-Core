@@ -1,0 +1,32 @@
+﻿@model SmartShop.Application.DTOs.DashboardDto
+
+<h2>Dashboard</h2>
+
+<div style="display:flex; gap:40px; flex-wrap:wrap">
+
+    <div>
+        <h4>Total Revenue</h4>
+        <p>@Model.TotalRevenue</p>
+    </div>
+
+    <div>
+        <h4>Total Expense</h4>
+        <p>@Model.TotalExpense</p>
+    </div>
+
+    <div>
+        <h4>Total Profit</h4>
+        <p>@Model.TotalProfit</p>
+    </div>
+
+    <div>
+        <h4>Stock Value</h4>
+        <p>@Model.StockValue</p>
+    </div>
+
+    <div>
+        <h4>Low Stock Products</h4>
+        <p>@Model.LowStockCount</p>
+    </div>
+
+</div>

@@ -1,0 +1,29 @@
+﻿@{
+    var products = ViewBag.Products as List<SmartShop.Domain.Entities.Product>;
+}
+
+<h2>Create Purchase</h2>
+
+<form method="post">
+    <div>
+        <label>Product</label>
+        <select name="productId">
+            @foreach (var p in products)
+            {
+                <option value="@p.Id">@p.Name</option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <label>Quantity</label>
+        <input name="quantity" type="number" />
+    </div>
+
+    <div>
+        <label>Unit Price</label>
+        <input name="unitPrice" type="number" step="0.01" />
+    </div>
+
+    <button type="submit">Save</button>
+</form>
