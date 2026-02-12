@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SmartShop.Application\SmartShop.Application.csproj" />
+    <ProjectReference Include="..\SmartShop.Domain\SmartShop.Domain.csproj" />
     <ProjectReference Include="..\SmartShop.Infrastructure\SmartShop.Infrastructure.csproj" />
   </ItemGroup>
 

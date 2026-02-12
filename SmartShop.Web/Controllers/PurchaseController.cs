@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SmartShop.Application.DTOs;
 using SmartShop.Application.Interfaces;
-
-namespace SmartShop.Web.Controllers;
 
 [Authorize]
 public class PurchaseController : Controller
@@ -16,6 +13,11 @@ public class PurchaseController : Controller
     {
         _purchaseService = purchaseService;
         _productService = productService;
+    }
+
+    public async Task<IActionResult> Index()
+    {
+        return View();
     }
 
     public async Task<IActionResult> Create()
@@ -43,6 +45,6 @@ public class PurchaseController : Controller
 
         await _purchaseService.CreateAsync(dto);
 
-        return RedirectToAction("Index", "Product");
+        return RedirectToAction(nameof(Index));
     }
 }

@@ -16,4 +16,17 @@ public class CurrentUserService : ICurrentUserService
         _httpContextAccessor.HttpContext?
             .User?
             .FindFirstValue(ClaimTypes.NameIdentifier);
+
+    public Guid? ShopId
+    {
+        get
+        {
+            var shopIdClaim = _httpContextAccessor.HttpContext?
+                .User?
+                .FindFirst("ShopId")?.Value;
+
+            return shopIdClaim != null ? Guid.Parse(shopIdClaim) : null;
+        }
+    }
+
 }

@@ -4,6 +4,9 @@ namespace SmartShop.Domain.Entities;
 
 public class Product : BaseEntity
 {
+    public Guid ShopId { get; set; }
+    public Shop Shop { get; set; } = null!;
+
     public string Name { get; set; } = string.Empty;
 
     public string SKU { get; set; } = string.Empty;
@@ -17,4 +20,6 @@ public class Product : BaseEntity
     public int MinimumStockLevel { get; set; }
 
     public bool IsActive { get; set; } = true;
+
+
 }

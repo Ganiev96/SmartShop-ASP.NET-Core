@@ -12,8 +12,8 @@ using SmartShop.Infrastructure.Persistence;
 namespace SmartShop.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260211201013_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260212094221_InitialCleanMultiTenant")]
+    partial class InitialCleanMultiTenant
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -219,6 +219,9 @@ namespace SmartShop.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("ShopId")
+                        .HasColumnType("uuid");
+
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
@@ -226,6 +229,8 @@ namespace SmartShop.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ShopId");
 
                     b.ToTable("CashTransactions");
                 });
@@ -267,10 +272,15 @@ namespace SmartShop.Infrastructure.Migrations
                     b.Property<decimal>("SalePrice")
                         .HasColumnType("numeric");
 
+                    b.Property<Guid>("ShopId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ShopId");
 
                     b.ToTable("Products");
                 });
@@ -289,6 +299,9 @@ namespace SmartShop.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
+                    b.Property<Guid>("ShopId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("SupplierName")
                         .IsRequired()
                         .HasColumnType("text");
@@ -300,6 +313,8 @@ namespace SmartShop.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ShopId");
 
                     b.ToTable("Purchases");
                 });
@@ -359,6 +374,9 @@ namespace SmartShop.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
+                    b.Property<Guid>("ShopId")
+                        .HasColumnType("uuid");
+
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("numeric");
 
@@ -369,6 +387,8 @@ namespace SmartShop.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ShopId");
 
                     b.ToTable("Sales");
                 });
@@ -417,6 +437,21 @@ namespace SmartShop.Infrastructure.Migrations
                     b.ToTable("SaleItems");
                 });
 
+            modelBuilder.Entity("SmartShop.Domain.Entities.Shop", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Shops");
+                });
+
             modelBuilder.Entity("SmartShop.Domain.Entities.StockMovement", b =>
                 {
                     b.Property<int>("Id")
@@ -437,6 +472,9 @@ namespace SmartShop.Infrastructure.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
+                    b.Property<Guid>("ShopId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Source")
                         .IsRequired()
                         .HasColumnType("text");
@@ -453,6 +491,8 @@ namespace SmartShop.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("ShopId");
 
                     b.ToTable("StockMovements");
                 });
@@ -505,6 +545,9 @@ namespace SmartShop.Infrastructure.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
 
+                    b.Property<Guid>("ShopId")
+                        .HasColumnType("uuid");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean");
 
@@ -520,6 +563,8 @@ namespace SmartShop.Infrastructure.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
+
+                    b.HasIndex("ShopId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -575,6 +620,39 @@ namespace SmartShop.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SmartShop.Domain.Entities.CashTransaction", b =>
+                {
+                    b.HasOne("SmartShop.Domain.Entities.Shop", "Shop")
+                        .WithMany("CashTransactions")
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Shop");
+                });
+
+            modelBuilder.Entity("SmartShop.Domain.Entities.Product", b =>
+                {
+                    b.HasOne("SmartShop.Domain.Entities.Shop", "Shop")
+                        .WithMany("Products")
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Shop");
+                });
+
+            modelBuilder.Entity("SmartShop.Domain.Entities.Purchase", b =>
+                {
+                    b.HasOne("SmartShop.Domain.Entities.Shop", "Shop")
+                        .WithMany("Purchases")
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Shop");
+                });
+
             modelBuilder.Entity("SmartShop.Domain.Entities.PurchaseItem", b =>
                 {
                     b.HasOne("SmartShop.Domain.Entities.Product", "Product")
@@ -592,6 +670,17 @@ namespace SmartShop.Infrastructure.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("Purchase");
+                });
+
+            modelBuilder.Entity("SmartShop.Domain.Entities.Sale", b =>
+                {
+                    b.HasOne("SmartShop.Domain.Entities.Shop", "Shop")
+                        .WithMany("Sales")
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Shop");
                 });
 
             modelBuilder.Entity("SmartShop.Domain.Entities.SaleItem", b =>
@@ -621,7 +710,26 @@ namespace SmartShop.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SmartShop.Domain.Entities.Shop", "Shop")
+                        .WithMany("StockMovements")
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Product");
+
+                    b.Navigation("Shop");
+                });
+
+            modelBuilder.Entity("SmartShop.Infrastructure.Identity.ApplicationUser", b =>
+                {
+                    b.HasOne("SmartShop.Domain.Entities.Shop", "Shop")
+                        .WithMany()
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Shop");
                 });
 
             modelBuilder.Entity("SmartShop.Domain.Entities.Purchase", b =>
@@ -632,6 +740,19 @@ namespace SmartShop.Infrastructure.Migrations
             modelBuilder.Entity("SmartShop.Domain.Entities.Sale", b =>
                 {
                     b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("SmartShop.Domain.Entities.Shop", b =>
+                {
+                    b.Navigation("CashTransactions");
+
+                    b.Navigation("Products");
+
+                    b.Navigation("Purchases");
+
+                    b.Navigation("Sales");
+
+                    b.Navigation("StockMovements");
                 });
 #pragma warning restore 612, 618
         }

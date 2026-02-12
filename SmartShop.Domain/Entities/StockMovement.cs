@@ -5,6 +5,9 @@ namespace SmartShop.Domain.Entities;
 
 public class StockMovement : BaseEntity
 {
+    public Guid ShopId { get; set; }
+    public Shop Shop { get; set; } = null!;
+
     public int ProductId { get; set; }
 
     public Product Product { get; set; } = null!;

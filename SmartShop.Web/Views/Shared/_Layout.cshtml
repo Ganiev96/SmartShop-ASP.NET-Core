@@ -31,21 +31,33 @@
 
             <ul class="navbar-nav flex-grow-1">
 
-                <li class="nav-item">
-                    <a class="nav-link text-dark"
-                       asp-controller="Home"
-                       asp-action="Index">
-                        @Localizer["Home"]
-                    </a>
-                </li>
+                        @if (User.Identity!.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Dashboard" asp-action="Index">
+                                    Dashboard
+                                </a>
+                            </li>
 
-                <li class="nav-item">
-                    <a class="nav-link text-dark"
-                       asp-controller="Home"
-                       asp-action="Privacy">
-                        @Localizer["Privacy"]
-                    </a>
-                </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Product" asp-action="Index">
+                                    Products
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Purchase" asp-action="Index">
+                                    Purchases
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Sale" asp-action="Index">
+                                    Sales
+                                </a>
+                            </li>
+                        }
+
 
             </ul>
 

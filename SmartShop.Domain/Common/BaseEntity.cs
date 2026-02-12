@@ -1,4 +1,6 @@
-﻿namespace SmartShop.Domain.Common;
+﻿using SmartShop.Domain.Entities;
+
+namespace SmartShop.Domain.Common;
 
 public abstract class BaseEntity
 {
@@ -10,3 +12,4 @@ public abstract class BaseEntity
 
     public bool IsDeleted { get; set; } = false;
 }
+

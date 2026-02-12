@@ -4,20 +4,22 @@ using SmartShop.Application.Interfaces;
 using SmartShop.Domain.Common;
 using SmartShop.Domain.Entities;
 using SmartShop.Domain.Enums;
-using SmartShop.Infrastructure.Persistence;
 
 namespace SmartShop.Application.Services;
 
 public class SaleService : ISaleService
 {
-    private readonly AppDbContext _context;
+    private readonly IAppDbContext _context;
     private readonly IAuditService _auditService;
+    private readonly ICurrentUserService _currentUserService;
 
-    public SaleService(AppDbContext context,
-                   IAuditService auditService)
+    public SaleService(IAppDbContext context,
+                   IAuditService auditService,
+                   ICurrentUserService currentUserService)
     {
         _context = context;
         _auditService = auditService;
+        _currentUserService = currentUserService;
     }
 
     public async Task CreateAsync(CreateSaleDto dto)
@@ -28,6 +30,7 @@ public class SaleService : ISaleService
         {
             var sale = new Sale
             {
+                ShopId = _currentUserService.ShopId!.Value,
                 TotalAmount = 0,
                 TotalProfit = 0
             };
@@ -78,7 +81,7 @@ public class SaleService : ISaleService
 
                 // STOCK MOVEMENT
                 _context.StockMovements.Add(new StockMovement
-                {
+                {ShopId = _currentUserService.ShopId!.Value,
                     ProductId = product.Id,
                     Type = StockMovementType.Out,
                     Quantity = item.Quantity,
@@ -92,7 +95,7 @@ public class SaleService : ISaleService
 
             // CASH TRANSACTION (Income)
             _context.CashTransactions.Add(new CashTransaction
-            {
+            {ShopId = _currentUserService.ShopId!.Value,
                 Type = CashTransactionType.Income,
                 Amount = totalAmount,
                 ReferenceType = "Sale",

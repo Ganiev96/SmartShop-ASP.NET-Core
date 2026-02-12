@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SmartShop.Infrastructure\SmartShop.Infrastructure.csproj" />
+    <ProjectReference Include="..\SmartShop.Domain\SmartShop.Domain.csproj" />
   </ItemGroup>
 
 </Project>

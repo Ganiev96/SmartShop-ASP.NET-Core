@@ -2,20 +2,22 @@
 using SmartShop.Application.DTOs;
 using SmartShop.Application.Interfaces;
 using SmartShop.Domain.Entities;
-using SmartShop.Infrastructure.Persistence;
 
 namespace SmartShop.Application.Services;
 
 public class ProductService : IProductService
 {
-    private readonly AppDbContext _context;
+    private readonly IAppDbContext _context;
     private readonly IAuditService _auditService;
+    private readonly ICurrentUserService _currentUserService;
 
-    public ProductService(AppDbContext context,
-                      IAuditService auditService)
+    public ProductService(IAppDbContext context,
+                      IAuditService auditService,
+                      ICurrentUserService currentUserService)
     {
         _context = context;
         _auditService = auditService;
+        _currentUserService = currentUserService;
     }
 
 
@@ -23,6 +25,8 @@ public class ProductService : IProductService
     {
         if (dto.SalePrice < dto.PurchasePrice)
             throw new Exception("Sale price cannot be lower than purchase price.");
+        if (_currentUserService.ShopId == null)
+            throw new UnauthorizedAccessException("ShopId not found for current user");
 
         var product = new Product
         {
@@ -31,7 +35,8 @@ public class ProductService : IProductService
             PurchasePrice = dto.PurchasePrice,
             SalePrice = dto.SalePrice,
             MinimumStockLevel = dto.MinimumStockLevel,
-            QuantityInStock = 0
+            QuantityInStock = 0,
+            ShopId = _currentUserService.ShopId.Value
         };
 
         _context.Products.Add(product);

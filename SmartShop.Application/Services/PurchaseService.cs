@@ -3,20 +3,22 @@ using SmartShop.Application.DTOs;
 using SmartShop.Application.Interfaces;
 using SmartShop.Domain.Entities;
 using SmartShop.Domain.Enums;
-using SmartShop.Infrastructure.Persistence;
 
 namespace SmartShop.Application.Services;
 
 public class PurchaseService : IPurchaseService
 {
-    private readonly AppDbContext _context;
+    private readonly IAppDbContext _context;
     private readonly IAuditService _auditService;
+    private readonly ICurrentUserService _currentUserService;
 
-    public PurchaseService(AppDbContext context,
-                        IAuditService auditService)
+    public PurchaseService(IAppDbContext context,
+                        IAuditService auditService,
+                        ICurrentUserService currentUserService)
     {
         _context = context;
         _auditService = auditService;
+        _currentUserService = currentUserService;
     }
 
     public async Task CreateAsync(CreatePurchaseDto dto)
@@ -27,6 +29,7 @@ public class PurchaseService : IPurchaseService
         {
             var purchase = new Purchase
             {
+                ShopId = _currentUserService.ShopId!.Value,
                 SupplierName = dto.SupplierName,
                 TotalAmount = 0
             };
@@ -64,6 +67,7 @@ public class PurchaseService : IPurchaseService
                 // STOCK MOVEMENT
                 _context.StockMovements.Add(new StockMovement
                 {
+                    ShopId = _currentUserService.ShopId!.Value,
                     ProductId = product.Id,
                     Type = StockMovementType.In,
                     Quantity = item.Quantity,
@@ -77,6 +81,7 @@ public class PurchaseService : IPurchaseService
             // CASH TRANSACTION
             _context.CashTransactions.Add(new CashTransaction
             {
+                ShopId = _currentUserService.ShopId!.Value,
                 Type = CashTransactionType.Expense,
                 Amount = totalAmount,
                 ReferenceType = "Purchase",

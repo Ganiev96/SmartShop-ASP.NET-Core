@@ -5,6 +5,9 @@ namespace SmartShop.Domain.Entities;
 
 public class CashTransaction : BaseEntity
 {
+    public Guid ShopId { get; set; }
+    public Shop Shop { get; set; } = null!;
+
     public CashTransactionType Type { get; set; }
 
     public decimal Amount { get; set; }

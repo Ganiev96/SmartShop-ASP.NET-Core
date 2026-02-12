@@ -2,15 +2,14 @@
 using SmartShop.Application.DTOs;
 using SmartShop.Application.Interfaces;
 using SmartShop.Domain.Enums;
-using SmartShop.Infrastructure.Persistence;
 
 namespace SmartShop.Application.Services;
 
 public class DashboardService : IDashboardService
 {
-    private readonly AppDbContext _context;
+    private readonly IAppDbContext _context;
 
-    public DashboardService(AppDbContext context)
+    public DashboardService(IAppDbContext context)
     {
         _context = context;
     }

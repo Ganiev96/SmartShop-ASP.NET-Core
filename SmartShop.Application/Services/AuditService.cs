@@ -1,15 +1,14 @@
 ﻿using SmartShop.Application.Interfaces;
 using SmartShop.Domain.Entities;
-using SmartShop.Infrastructure.Persistence;
 
 namespace SmartShop.Application.Services;
 
 public class AuditService : IAuditService
 {
-    private readonly AppDbContext _context;
+    private readonly IAppDbContext _context;
     private readonly ICurrentUserService _currentUser;
 
-    public AuditService(AppDbContext context,
+    public AuditService(IAppDbContext context,
                         ICurrentUserService currentUser)
     {
         _context = context;

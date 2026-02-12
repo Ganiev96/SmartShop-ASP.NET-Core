@@ -2,10 +2,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SmartShop.Application.Interfaces;
 using SmartShop.Application.Services;
+using SmartShop.Domain.Entities;
 using SmartShop.Infrastructure.Identity;
 using SmartShop.Infrastructure.Persistence;
 using SmartShop.Web.Middleware;
 using SmartShop.Web.Services;
+using System.Security.Claims;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +15,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Connection
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IAppDbContext>(provider =>
+    provider.GetRequiredService<AppDbContext>());
 
 // Identity
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
@@ -22,6 +27,31 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<AppDbContext>();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Events.OnSigningIn = async context =>
+    {
+        var userManager = context.HttpContext
+            .RequestServices
+            .GetRequiredService<UserManager<ApplicationUser>>();
+
+        var user = await userManager.GetUserAsync(context.Principal);
+
+        if (user != null)
+        {
+            var claimsIdentity = (ClaimsIdentity)context.Principal.Identity!;
+
+            // Old ShopId claimni olib tashlaymiz (agar mavjud bo‘lsa)
+            var existingClaim = claimsIdentity.FindFirst("ShopId");
+            if (existingClaim != null)
+                claimsIdentity.RemoveClaim(existingClaim);
+
+            // Yangi ShopId claim qo‘shamiz
+            claimsIdentity.AddClaim(
+                new Claim("ShopId", user.ShopId.ToString()));
+        }
+    };
+});
 
 
 builder.Services.AddRazorPages();
@@ -80,26 +110,118 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 
-using (var scope = app.Services.CreateScope())
+await SeedDataAsync(app);
+
+
+app.Run();
+
+static async Task SeedDataAsync(WebApplication app)
 {
+    using var scope = app.Services.CreateScope();
+
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-    string roleName = "Owner";
+    const string roleName = "Owner";
 
+    // ================================
+    // 1️⃣ CREATE ROLE
+    // ================================
     if (!await roleManager.RoleExistsAsync(roleName))
     {
         await roleManager.CreateAsync(new IdentityRole(roleName));
     }
 
-    // Default admin user
-    var adminEmail = "admin@mail.com";
+    // ================================
+    // 2️⃣ FIRST SHOP
+    // ================================
+    var firstShop = await dbContext.Shops
+        .FirstOrDefaultAsync(s => s.Name == "Main Shop");
+
+    if (firstShop == null)
+    {
+        firstShop = new Shop
+        {
+            Id = Guid.NewGuid(),
+            Name = "Main Shop"
+        };
+
+        dbContext.Shops.Add(firstShop);
+        await dbContext.SaveChangesAsync();
+    }
+
+    const string adminEmail = "admin@mail.com";
+    const string adminPassword = "Admin123!";
+
     var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
-    if (adminUser != null && !await userManager.IsInRoleAsync(adminUser, roleName))
+    if (adminUser == null)
+    {
+        adminUser = new ApplicationUser
+        {
+            UserName = adminEmail,
+            Email = adminEmail,
+            EmailConfirmed = true,
+            ShopId = firstShop.Id
+        };
+
+        var result = await userManager.CreateAsync(adminUser, adminPassword);
+
+        if (!result.Succeeded)
+            throw new Exception("Failed to create first admin");
+    }
+
+    if (!await userManager.IsInRoleAsync(adminUser, roleName))
     {
         await userManager.AddToRoleAsync(adminUser, roleName);
     }
+
+    // ================================
+    // 3️⃣ SECOND SHOP
+    // ================================
+    var secondShop = await dbContext.Shops
+        .FirstOrDefaultAsync(s => s.Name == "Second Shop");
+
+    if (secondShop == null)
+    {
+        secondShop = new Shop
+        {
+            Id = Guid.NewGuid(),
+            Name = "Second Shop"
+        };
+
+        dbContext.Shops.Add(secondShop);
+        await dbContext.SaveChangesAsync();
+    }
+
+    const string secondEmail = "admin2@mail.com";
+    const string secondPassword = "Admin123!";
+
+    var secondUser = await userManager.FindByEmailAsync(secondEmail);
+
+    if (secondUser == null)
+    {
+        secondUser = new ApplicationUser
+        {
+            UserName = secondEmail,
+            Email = secondEmail,
+            EmailConfirmed = true,
+            ShopId = secondShop.Id
+        };
+
+        var result = await userManager.CreateAsync(secondUser, secondPassword);
+
+        if (!result.Succeeded)
+            throw new Exception("Failed to create second admin");
+    }
+
+    if (!await userManager.IsInRoleAsync(secondUser, roleName))
+    {
+        await userManager.AddToRoleAsync(secondUser, roleName);
+    }
 }
 
-app.Run();
+
+
+
