@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using SmartShop.Application.Interfaces;
-using SmartShop.Domain.Common;
 using SmartShop.Domain.Entities;
 using SmartShop.Infrastructure.Identity;
-using System.Linq.Expressions;
 
 namespace SmartShop.Infrastructure.Persistence;
 
@@ -38,70 +35,40 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>, IAppDbContext
 
     private void ApplySoftDeleteAndTenantFilters(ModelBuilder modelBuilder)
     {
-        // 🔹 PRODUCT
         modelBuilder.Entity<Product>()
             .HasQueryFilter(e =>
                 !e.IsDeleted &&
                 (!CurrentShopId.HasValue || e.ShopId == CurrentShopId));
 
-        // 🔹 PURCHASE
         modelBuilder.Entity<Purchase>()
             .HasQueryFilter(e =>
                 !e.IsDeleted &&
                 (!CurrentShopId.HasValue || e.ShopId == CurrentShopId));
 
-        // 🔹 SALE
         modelBuilder.Entity<Sale>()
             .HasQueryFilter(e =>
                 !e.IsDeleted &&
                 (!CurrentShopId.HasValue || e.ShopId == CurrentShopId));
 
-       
-    }
+        // Related entities also get filters to avoid EF warning 10622
+        modelBuilder.Entity<PurchaseItem>()
+            .HasQueryFilter(e =>
+                !e.IsDeleted &&
+                (!CurrentShopId.HasValue || e.Purchase.ShopId == CurrentShopId));
 
+        modelBuilder.Entity<SaleItem>()
+            .HasQueryFilter(e =>
+                !e.IsDeleted &&
+                (!CurrentShopId.HasValue || e.Sale.ShopId == CurrentShopId));
 
-    private LambdaExpression? BuildFilterExpression(IMutableEntityType entityType)
-    {
-        var clrType = entityType.ClrType;
-        var parameter = Expression.Parameter(clrType, "e");
-        Expression? body = null;
+        modelBuilder.Entity<StockMovement>()
+            .HasQueryFilter(e =>
+                !e.IsDeleted &&
+                (!CurrentShopId.HasValue || e.ShopId == CurrentShopId));
 
-        if (entityType.FindProperty(nameof(BaseEntity.IsDeleted))?.ClrType == typeof(bool))
-        {
-            var isDeletedProperty = Expression.Call(
-                typeof(EF),
-                nameof(EF.Property),
-                new[] { typeof(bool) },
-                parameter,
-                Expression.Constant(nameof(BaseEntity.IsDeleted)));
-
-            var isNotDeleted = Expression.Equal(isDeletedProperty, Expression.Constant(false));
-            body = isNotDeleted;
-        }
-
-        if (entityType.FindProperty("ShopId")?.ClrType == typeof(Guid))
-        {
-            var shopIdProperty = Expression.Call(
-                typeof(EF),
-                nameof(EF.Property),
-                new[] { typeof(Guid) },
-                parameter,
-                Expression.Constant("ShopId"));
-
-            var currentShopId = Expression.Property(
-                Expression.Constant(this),
-                nameof(CurrentShopId));
-
-            var hasValue = Expression.Property(currentShopId, nameof(Nullable<Guid>.HasValue));
-            var value = Expression.Property(currentShopId, nameof(Nullable<Guid>.Value));
-
-            var tenantFilter = Expression.OrElse(
-                Expression.Not(hasValue),
-                Expression.Equal(shopIdProperty, value));
-
-            body = body == null ? tenantFilter : Expression.AndAlso(body, tenantFilter);
-        }
-
-        return body == null ? null : Expression.Lambda(body, parameter);
+        modelBuilder.Entity<CashTransaction>()
+            .HasQueryFilter(e =>
+                !e.IsDeleted &&
+                (!CurrentShopId.HasValue || e.ShopId == CurrentShopId));
     }
 }

@@ -1,8 +1,48 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="p-5 mb-4 bg-light rounded-3 border hero-section">
+    <div class="container-fluid py-2">
+        <h1 class="display-5 fw-bold mb-3">SmartShop</h1>
+        <p class="col-lg-8 fs-5 text-secondary mb-4">
+            Ombor, savdo va xarid jarayonlarini bir joydan boshqarish uchun sodda va tezkor tizim.
+        </p>
+        @if (!User.Identity?.IsAuthenticated ?? true)
+        {
+            <a class="btn btn-primary btn-lg me-2" asp-area="Identity" asp-page="/Account/Login">Kirish</a>
+            <a class="btn btn-outline-primary btn-lg" asp-area="Identity" asp-page="/Account/Register">Ro'yxatdan o'tish</a>
+        }
+        else
+        {
+            <a class="btn btn-primary btn-lg" asp-controller="Dashboard" asp-action="Index">Dashboard'ga o'tish</a>
+        }
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+                <h5 class="card-title">Mahsulotlar</h5>
+                <p class="card-text text-secondary">Narx, SKU va qolgan zaxirani nazorat qiling.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+                <h5 class="card-title">Xaridlar</h5>
+                <p class="card-text text-secondary">Supplierlardan kirimlarni tez kiritish va tarixini ko'rish.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+                <h5 class="card-title">Sotuvlar</h5>
+                <p class="card-text text-secondary">Sotuv, foyda va pul oqimini real vaqtda kuzating.</p>
+            </div>
+        </div>
+    </div>
 </div>

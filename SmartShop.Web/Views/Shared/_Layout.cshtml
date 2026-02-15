@@ -3,102 +3,58 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SmartShop.Web</title>
+    <title>@ViewData["Title"] - SmartShop</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SmartShop.Web.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-    <div class="container-fluid">
-        <a class="navbar-brand"
-   asp-area=""
-   asp-controller="Home"
-   asp-action="Index">
-    @Localizer["AppName"]
-</a>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-semibold" asp-area="" asp-controller="Home" asp-action="Index">
+                    @Localizer["AppName"]
+                </a>
 
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-        <button class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target=".navbar-collapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-
-            <ul class="navbar-nav flex-grow-1">
-
+                <div id="mainNav" class="collapse navbar-collapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         @if (User.Identity!.IsAuthenticated)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Dashboard" asp-action="Index">
-                                    Dashboard
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Product" asp-action="Index">
-                                    Products
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Purchase" asp-action="Index">
-                                    Purchases
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Sale" asp-action="Index">
-                                    Sales
-                                </a>
-                            </li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Dashboard" asp-action="Index">Dashboard</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Product" asp-action="Index">Products</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Purchase" asp-action="Index">Purchases</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Sale" asp-action="Index">Sales</a></li>
                         }
+                    </ul>
 
+                    <div class="d-flex align-items-center gap-2 me-2">
+                        <a asp-controller="Culture" asp-action="Set" asp-route-culture="uz" asp-route-returnUrl="@Context.Request.Path" class="btn btn-sm btn-outline-light">🇺🇿 UZ</a>
+                        <a asp-controller="Culture" asp-action="Set" asp-route-culture="en" asp-route-returnUrl="@Context.Request.Path" class="btn btn-sm btn-outline-light">🇬🇧 EN</a>
+                    </div>
 
-            </ul>
-
-            <div class="d-flex align-items-center me-3">
-                <a asp-controller="Culture"
-                   asp-action="Set"
-                   asp-route-culture="uz"
-                   asp-route-returnUrl="@Context.Request.Path"
-                   class="nav-link px-2">
-                    🇺🇿 UZ
-                </a>
-
-                <a asp-controller="Culture"
-                   asp-action="Set"
-                   asp-route-culture="en"
-                   asp-route-returnUrl="@Context.Request.Path"
-                   class="nav-link px-2">
-                    🇬🇧 EN
-                </a>
+                    <partial name="_LoginPartial" />
+                </div>
             </div>
-
-            <partial name="_LoginPartial" />
-
-        </div>
-    </div>
-</nav>
+        </nav>
     </header>
-    <div class="container">
+
+    <div class="container py-4">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - SmartShop.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">
-    @Localizer["Privacy"]
-</a>
-
+    <footer class="footer border-top bg-white text-muted">
+        <div class="container py-3 d-flex justify-content-between align-items-center">
+            <span>&copy; @DateTime.UtcNow.Year - SmartShop</span>
+            <a asp-area="" asp-controller="Home" asp-action="Privacy">@Localizer["Privacy"]</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

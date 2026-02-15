@@ -2,6 +2,11 @@
     ViewData["Title"] = "Purchases";
 }
 
-<h2>Purchases</h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Purchases</h2>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</div>
 
-<a asp-action="Create">Create New</a>
+<div class="alert alert-info mb-0" role="alert">
+    Purchase history list hali qo'shilmagan. Hozircha yangi purchase yaratishingiz mumkin.
+</div>

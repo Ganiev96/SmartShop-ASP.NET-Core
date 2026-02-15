@@ -1,39 +1,50 @@
 ﻿@model List<SmartShop.Domain.Entities.Product>
 @inject IStringLocalizer<SmartShop.Web.Resources.SharedResource> Localizer
 
-<h1>@Localizer["Products"]</h1>
+@{
+    ViewData["Title"] = Localizer["Products"];
+}
 
-<a asp-action="Create">@Localizer["CreateNew"]</a>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">@Localizer["Products"]</h2>
+    <a asp-action="Create" class="btn btn-primary">@Localizer["CreateNew"]</a>
+</div>
 
-
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>@Localizer["Name"]</th>
-            <th>@Localizer["SKU"]</th>
-            <th>@Localizer["Stock"]</th>
-            <th>@Localizer["SalePrice"]</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@item.Name</td>
-            <td>@item.SKU</td>
-            <td>@item.QuantityInStock</td>
-            <td>@item.SalePrice</td>
-            <td>
-                @if (User.IsInRole("Owner"))
+<div class="card shadow-sm border-0">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>@Localizer["Name"]</th>
+                    <th>@Localizer["SKU"]</th>
+                    <th>@Localizer["Stock"]</th>
+                    <th>@Localizer["SalePrice"]</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
                 {
-                    <a asp-action="Delete" asp-route-id="@item.Id">
-                        @Localizer["Delete"]
-                    </a>
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.SKU</td>
+                        <td>
+                            <span class="badge @(item.QuantityInStock <= item.MinimumStockLevel ? "bg-warning text-dark" : "bg-success")">
+                                @item.QuantityInStock
+                            </span>
+                        </td>
+                        <td>@item.SalePrice.ToString("N0")</td>
+                        <td class="text-end">
+                            @if (User.IsInRole("Owner"))
+                            {
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">
+                                    @Localizer["Delete"]
+                                </a>
+                            }
+                        </td>
+                    </tr>
                 }
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,32 +1,51 @@
 ﻿@model SmartShop.Application.DTOs.DashboardDto
+@{
+    ViewData["Title"] = "Dashboard";
+}
 
-<h2>Dashboard</h2>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Dashboard</h2>
+</div>
 
-<div style="display:flex; gap:40px; flex-wrap:wrap">
-
-    <div>
-        <h4>Total Revenue</h4>
-        <p>@Model.TotalRevenue</p>
+<div class="row g-3">
+    <div class="col-md-6 col-xl-3">
+        <div class="card dashboard-card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <h6 class="text-muted">Total Revenue</h6>
+                <h4 class="mb-0">@Model.TotalRevenue.ToString("N0")</h4>
+            </div>
+        </div>
     </div>
-
-    <div>
-        <h4>Total Expense</h4>
-        <p>@Model.TotalExpense</p>
+    <div class="col-md-6 col-xl-3">
+        <div class="card dashboard-card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <h6 class="text-muted">Total Expense</h6>
+                <h4 class="mb-0">@Model.TotalExpense.ToString("N0")</h4>
+            </div>
+        </div>
     </div>
-
-    <div>
-        <h4>Total Profit</h4>
-        <p>@Model.TotalProfit</p>
+    <div class="col-md-6 col-xl-3">
+        <div class="card dashboard-card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <h6 class="text-muted">Total Profit</h6>
+                <h4 class="mb-0">@Model.TotalProfit.ToString("N0")</h4>
+            </div>
+        </div>
     </div>
-
-    <div>
-        <h4>Stock Value</h4>
-        <p>@Model.StockValue</p>
+    <div class="col-md-6 col-xl-3">
+        <div class="card dashboard-card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <h6 class="text-muted">Stock Value</h6>
+                <h4 class="mb-0">@Model.StockValue.ToString("N0")</h4>
+            </div>
+        </div>
     </div>
-
-    <div>
-        <h4>Low Stock Products</h4>
-        <p>@Model.LowStockCount</p>
+    <div class="col-md-6 col-xl-3">
+        <div class="card dashboard-card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <h6 class="text-muted">Low Stock Products</h6>
+                <h4 class="mb-0">@Model.LowStockCount</h4>
+            </div>
+        </div>
     </div>
-
 </div>
