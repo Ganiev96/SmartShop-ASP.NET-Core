@@ -1,12 +1,12 @@
 ﻿@{
-    ViewData["Title"] = "Sales";
+    ViewData["Title"] = Localizer["Sales"];
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="mb-0">Sales</h2>
-    <a asp-action="Create" class="btn btn-primary">Create New</a>
+    <h2 class="mb-0">@Localizer["Sales"]</h2>
+    <a asp-action="Create" class="btn btn-primary">@Localizer["CreateNew"]</a>
 </div>
 
 <div class="alert alert-info mb-0" role="alert">
-    Sales history list hali qo'shilmagan. Hozircha yangi sale yaratishingiz mumkin.
+    @Localizer["SalesEmptyMessage"]
 </div>

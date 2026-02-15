@@ -1,18 +1,19 @@
 ﻿@model SmartShop.Application.DTOs.CreateSaleDto
 @{
+    ViewData["Title"] = Localizer["CreateSale"];
     var products = ViewBag.Products as List<SmartShop.Domain.Entities.Product>;
 }
 
-<h2>Create Sale</h2>
+<h2>@Localizer["CreateSale"]</h2>
 
 <form asp-action="Create" method="post">
     <div>
-        <label>Product</label>
+        <label>@Localizer["Product"]</label>
         <select asp-for="Items[0].ProductId">
             @foreach (var p in products ?? new List<SmartShop.Domain.Entities.Product>())
             {
                 <option value="@p.Id">
-                    @p.Name (Stock: @p.QuantityInStock)
+                    @p.Name (@Localizer["Stock"]: @p.QuantityInStock)
                 </option>
             }
         </select>
@@ -20,12 +21,12 @@
     </div>
 
     <div>
-        <label>Quantity</label>
+        <label>@Localizer["Quantity"]</label>
         <input asp-for="Items[0].Quantity" type="number" />
         <span asp-validation-for="Items[0].Quantity" style="color:red"></span>
     </div>
 
-    <button type="submit">Sell</button>
+    <button type="submit">@Localizer["Sell"]</button>
 </form>
 
 <div style="color:red">

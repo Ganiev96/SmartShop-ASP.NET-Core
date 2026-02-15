@@ -1,21 +1,21 @@
 ﻿@{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = Localizer["Home"];
 }
 
 <div class="p-5 mb-4 bg-light rounded-3 border hero-section">
     <div class="container-fluid py-2">
-        <h1 class="display-5 fw-bold mb-3">SmartShop</h1>
+        <h1 class="display-5 fw-bold mb-3">@Localizer["AppName"]</h1>
         <p class="col-lg-8 fs-5 text-secondary mb-4">
-            Ombor, savdo va xarid jarayonlarini bir joydan boshqarish uchun sodda va tezkor tizim.
+            @Localizer["HomeSubtitle"]
         </p>
         @if (!User.Identity?.IsAuthenticated ?? true)
         {
-            <a class="btn btn-primary btn-lg me-2" asp-area="Identity" asp-page="/Account/Login">Kirish</a>
-            <a class="btn btn-outline-primary btn-lg" asp-area="Identity" asp-page="/Account/Register">Ro'yxatdan o'tish</a>
+            <a class="btn btn-primary btn-lg me-2" asp-area="Identity" asp-page="/Account/Login">@Localizer["Login"]</a>
+            <a class="btn btn-outline-primary btn-lg" asp-area="Identity" asp-page="/Account/Register">@Localizer["Register"]</a>
         }
         else
         {
-            <a class="btn btn-primary btn-lg" asp-controller="Dashboard" asp-action="Index">Dashboard'ga o'tish</a>
+            <a class="btn btn-primary btn-lg" asp-controller="Dashboard" asp-action="Index">@Localizer["GoToDashboard"]</a>
         }
     </div>
 </div>
@@ -24,24 +24,24 @@
     <div class="col-md-4">
         <div class="card h-100 shadow-sm border-0">
             <div class="card-body">
-                <h5 class="card-title">Mahsulotlar</h5>
-                <p class="card-text text-secondary">Narx, SKU va qolgan zaxirani nazorat qiling.</p>
+                <h5 class="card-title">@Localizer["Products"]</h5>
+                <p class="card-text text-secondary">@Localizer["ProductsFeatureDescription"]</p>
             </div>
         </div>
     </div>
     <div class="col-md-4">
         <div class="card h-100 shadow-sm border-0">
             <div class="card-body">
-                <h5 class="card-title">Xaridlar</h5>
-                <p class="card-text text-secondary">Supplierlardan kirimlarni tez kiritish va tarixini ko'rish.</p>
+                <h5 class="card-title">@Localizer["Purchases"]</h5>
+                <p class="card-text text-secondary">@Localizer["PurchasesFeatureDescription"]</p>
             </div>
         </div>
     </div>
     <div class="col-md-4">
         <div class="card h-100 shadow-sm border-0">
             <div class="card-body">
-                <h5 class="card-title">Sotuvlar</h5>
-                <p class="card-text text-secondary">Sotuv, foyda va pul oqimini real vaqtda kuzating.</p>
+                <h5 class="card-title">@Localizer["Sales"]</h5>
+                <p class="card-text text-secondary">@Localizer["SalesFeatureDescription"]</p>
             </div>
         </div>
     </div>

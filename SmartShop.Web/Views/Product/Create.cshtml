@@ -1,32 +1,35 @@
 ﻿@model SmartShop.Application.DTOs.CreateProductDto
+@{
+    ViewData["Title"] = Localizer["CreateProduct"];
+}
 
-<h2>Create Product</h2>
+<h2>@Localizer["CreateProduct"]</h2>
 
 <form asp-action="Create" method="post">
     <div>
-        <label>Name</label>
+        <label>@Localizer["Name"]</label>
         <input asp-for="Name" />
     </div>
 
     <div>
-        <label>SKU</label>
+        <label>@Localizer["SKU"]</label>
         <input asp-for="SKU" />
     </div>
 
     <div>
-        <label>Purchase Price</label>
+        <label>@Localizer["PurchasePrice"]</label>
         <input asp-for="PurchasePrice" />
     </div>
 
     <div>
-        <label>Sale Price</label>
+        <label>@Localizer["SalePrice"]</label>
         <input asp-for="SalePrice" />
     </div>
 
     <div>
-        <label>Minimum Stock</label>
+        <label>@Localizer["MinimumStock"]</label>
         <input asp-for="MinimumStockLevel" />
     </div>
 
-    <button type="submit">Save</button>
+    <button type="submit">@Localizer["Save"]</button>
 </form>

@@ -1,17 +1,17 @@
 ﻿@model SmartShop.Application.DTOs.DashboardDto
 @{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = Localizer["Dashboard"];
 }
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="mb-0">Dashboard</h2>
+    <h2 class="mb-0">@Localizer["Dashboard"]</h2>
 </div>
 
 <div class="row g-3">
     <div class="col-md-6 col-xl-3">
         <div class="card dashboard-card border-0 shadow-sm h-100">
             <div class="card-body">
-                <h6 class="text-muted">Total Revenue</h6>
+                <h6 class="text-muted">@Localizer["TotalRevenue"]</h6>
                 <h4 class="mb-0">@Model.TotalRevenue.ToString("N0")</h4>
             </div>
         </div>
@@ -19,7 +19,7 @@
     <div class="col-md-6 col-xl-3">
         <div class="card dashboard-card border-0 shadow-sm h-100">
             <div class="card-body">
-                <h6 class="text-muted">Total Expense</h6>
+                <h6 class="text-muted">@Localizer["TotalExpense"]</h6>
                 <h4 class="mb-0">@Model.TotalExpense.ToString("N0")</h4>
             </div>
         </div>
@@ -27,7 +27,7 @@
     <div class="col-md-6 col-xl-3">
         <div class="card dashboard-card border-0 shadow-sm h-100">
             <div class="card-body">
-                <h6 class="text-muted">Total Profit</h6>
+                <h6 class="text-muted">@Localizer["TotalProfit"]</h6>
                 <h4 class="mb-0">@Model.TotalProfit.ToString("N0")</h4>
             </div>
         </div>
@@ -35,7 +35,7 @@
     <div class="col-md-6 col-xl-3">
         <div class="card dashboard-card border-0 shadow-sm h-100">
             <div class="card-body">
-                <h6 class="text-muted">Stock Value</h6>
+                <h6 class="text-muted">@Localizer["StockValue"]</h6>
                 <h4 class="mb-0">@Model.StockValue.ToString("N0")</h4>
             </div>
         </div>
@@ -43,7 +43,7 @@
     <div class="col-md-6 col-xl-3">
         <div class="card dashboard-card border-0 shadow-sm h-100">
             <div class="card-body">
-                <h6 class="text-muted">Low Stock Products</h6>
+                <h6 class="text-muted">@Localizer["LowStockProducts"]</h6>
                 <h4 class="mb-0">@Model.LowStockCount</h4>
             </div>
         </div>

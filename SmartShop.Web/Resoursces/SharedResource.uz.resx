@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
+	<!-- 
     Microsoft ResX Schema 
     
     Version 2.0
@@ -59,104 +59,185 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="Actions" xml:space="preserve">
-    <value>Amallar</value>
-  </data>
-  <data name="AppName" xml:space="preserve">
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="metadata">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" />
+							</xsd:sequence>
+							<xsd:attribute name="name" use="required" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+							<xsd:attribute ref="xml:space" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="assembly">
+						<xsd:complexType>
+							<xsd:attribute name="alias" type="xsd:string" />
+							<xsd:attribute name="name" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+							<xsd:attribute ref="xml:space" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>2.0</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="AppName" xml:space="preserve">
     <value>SmartShop</value>
   </data>
-  <data name="CreateNew" xml:space="preserve">
+	<data name="CreateNew" xml:space="preserve">
     <value>Yangi qo'shish</value>
   </data>
-  <data name="Dashboard" xml:space="preserve">
-    <value>Boshqaruv paneli</value>
-  </data>
-  <data name="Delete" xml:space="preserve">
+	<data name="Delete" xml:space="preserve">
     <value>O'chirish</value>
   </data>
-  <data name="Home" xml:space="preserve">
+	<data name="Home" xml:space="preserve">
     <value>Bosh sahifa</value>
   </data>
-  <data name="Name" xml:space="preserve">
-    <value>Nomi</value>
-  </data>
-  <data name="Privacy" xml:space="preserve">
+	<data name="Privacy" xml:space="preserve">
     <value>Maxfiylik</value>
   </data>
-  <data name="Products" xml:space="preserve">
+	<data name="Products" xml:space="preserve">
     <value>Mahsulotlar</value>
   </data>
-  <data name="Purchases" xml:space="preserve">
-    <value>Xaridlar</value>
-  </data>
-  <data name="SalePrice" xml:space="preserve">
+	<data name="SalePrice" xml:space="preserve">
     <value>Sotuv narxi</value>
   </data>
-  <data name="Sales" xml:space="preserve">
+	<data name="Stock" xml:space="preserve">
+    <value>Ombor</value>
+  </data>
+	<data name="Dashboard" xml:space="preserve">
+    <value>Boshqaruv paneli</value>
+  </data>
+	<data name="Purchases" xml:space="preserve">
+    <value>Xaridlar</value>
+  </data>
+	<data name="Sales" xml:space="preserve">
     <value>Sotuvlar</value>
   </data>
-  <data name="SKU" xml:space="preserve">
+	<data name="Actions" xml:space="preserve">
+    <value>Amallar</value>
+  </data>
+	<data name="Name" xml:space="preserve">
+    <value>Nomi</value>
+  </data>
+	<data name="SKU" xml:space="preserve">
     <value>SKU</value>
   </data>
-  <data name="Stock" xml:space="preserve">
-    <value>Ombor</value>
+	<data name="TotalRevenue" xml:space="preserve">
+    <value>Jami tushum</value>
+  </data>
+	<data name="TotalExpense" xml:space="preserve">
+    <value>Jami xarajat</value>
+  </data>
+	<data name="TotalProfit" xml:space="preserve">
+    <value>Jami foyda</value>
+  </data>
+	<data name="StockValue" xml:space="preserve">
+    <value>Ombor qiymati</value>
+  </data>
+	<data name="LowStockProducts" xml:space="preserve">
+    <value>Kam qolgan mahsulotlar</value>
+  </data>
+	<data name="HomeSubtitle" xml:space="preserve">
+    <value>Ombor, savdo va xarid jarayonlarini bir joydan boshqarish uchun sodda va tezkor tizim.</value>
+  </data>
+	<data name="Login" xml:space="preserve">
+    <value>Kirish</value>
+  </data>
+	<data name="Register" xml:space="preserve">
+    <value>Ro'yxatdan o'tish</value>
+  </data>
+	<data name="GoToDashboard" xml:space="preserve">
+    <value>Dashboard'ga o'tish</value>
+  </data>
+	<data name="ProductsFeatureDescription" xml:space="preserve">
+    <value>Narx, SKU va qolgan zaxirani nazorat qiling.</value>
+  </data>
+	<data name="PurchasesFeatureDescription" xml:space="preserve">
+    <value>Supplierlardan kirimlarni tez kiritish va tarixini ko'rish.</value>
+  </data>
+	<data name="SalesFeatureDescription" xml:space="preserve">
+    <value>Sotuv, foyda va pul oqimini real vaqtda kuzating.</value>
+  </data>
+	<data name="PrivacyPolicy" xml:space="preserve">
+    <value>Maxfiylik siyosati</value>
+  </data>
+	<data name="PrivacyDescription" xml:space="preserve">
+    <value>Ushbu sahifada saytingizning maxfiylik siyosatini ko'rsatishingiz mumkin.</value>
+  </data>
+	<data name="CreateProduct" xml:space="preserve">
+    <value>Mahsulot yaratish</value>
+  </data>
+	<data name="PurchasePrice" xml:space="preserve">
+    <value>Xarid narxi</value>
+  </data>
+	<data name="MinimumStock" xml:space="preserve">
+    <value>Minimal zaxira</value>
+  </data>
+	<data name="Save" xml:space="preserve">
+    <value>Saqlash</value>
+  </data>
+	<data name="CreatePurchase" xml:space="preserve">
+    <value>Xarid yaratish</value>
+  </data>
+	<data name="SupplierName" xml:space="preserve">
+    <value>Yetkazib beruvchi nomi</value>
+  </data>
+	<data name="Product" xml:space="preserve">
+    <value>Mahsulot</value>
+  </data>
+	<data name="Quantity" xml:space="preserve">
+    <value>Miqdor</value>
+  </data>
+	<data name="UnitPrice" xml:space="preserve">
+    <value>Birlik narxi</value>
+  </data>
+	<data name="PurchasesEmptyMessage" xml:space="preserve">
+    <value>Xaridlar tarixi hali mavjud emas. Hozircha yangi xarid yaratishingiz mumkin.</value>
+  </data>
+	<data name="CreateSale" xml:space="preserve">
+    <value>Sotuv yaratish</value>
+  </data>
+	<data name="Sell" xml:space="preserve">
+    <value>Sotish</value>
+  </data>
+	<data name="SalesEmptyMessage" xml:space="preserve">
+    <value>Sotuvlar tarixi hali mavjud emas. Hozircha yangi sotuv yaratishingiz mumkin.</value>
   </data>
 </root>
