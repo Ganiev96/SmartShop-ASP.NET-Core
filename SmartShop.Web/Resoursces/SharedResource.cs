@@ -1,4 +1,4 @@
-﻿namespace SmartShop.Web.Resources
+﻿namespace SmartShop.Web
 {
     public class SharedResource
     {

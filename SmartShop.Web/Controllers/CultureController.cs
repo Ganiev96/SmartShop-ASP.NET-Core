@@ -34,6 +34,8 @@ namespace SmartShop.Web.Controllers
                 {
                     Expires = DateTimeOffset.UtcNow.AddYears(1),
                     IsEssential = true,
+                    HttpOnly = true,
+                    Path = "/",
                     SameSite = SameSiteMode.Lax,
                     Secure = HttpContext.Request.IsHttps
                 });
