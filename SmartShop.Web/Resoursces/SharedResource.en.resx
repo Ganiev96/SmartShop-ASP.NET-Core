@@ -117,11 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
   <data name="AppName" xml:space="preserve">
     <value>SmartShop</value>
   </data>
   <data name="CreateNew" xml:space="preserve">
     <value>Create New</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Bashboard</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
@@ -129,14 +135,26 @@
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
   <data name="Privacy" xml:space="preserve">
     <value>Privacy</value>
   </data>
   <data name="Products" xml:space="preserve">
     <value>Products</value>
   </data>
+  <data name="Purchases" xml:space="preserve">
+    <value>Purchases</value>
+  </data>
   <data name="SalePrice" xml:space="preserve">
     <value>Sale Price</value>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>Sales</value>
+  </data>
+  <data name="SKU" xml:space="preserve">
+    <value>SKU</value>
   </data>
   <data name="Stock" xml:space="preserve">
     <value>Stock</value>

@@ -117,11 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Actions" xml:space="preserve">
+    <value>Amallar</value>
+  </data>
   <data name="AppName" xml:space="preserve">
     <value>SmartShop</value>
   </data>
   <data name="CreateNew" xml:space="preserve">
     <value>Yangi qo'shish</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Boshqaruv paneli</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>O'chirish</value>
@@ -129,14 +135,26 @@
   <data name="Home" xml:space="preserve">
     <value>Bosh sahifa</value>
   </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nomi</value>
+  </data>
   <data name="Privacy" xml:space="preserve">
     <value>Maxfiylik</value>
   </data>
   <data name="Products" xml:space="preserve">
     <value>Mahsulotlar</value>
   </data>
+  <data name="Purchases" xml:space="preserve">
+    <value>Xaridlar</value>
+  </data>
   <data name="SalePrice" xml:space="preserve">
     <value>Sotuv narxi</value>
+  </data>
+  <data name="Sales" xml:space="preserve">
+    <value>Sotuvlar</value>
+  </data>
+  <data name="SKU" xml:space="preserve">
+    <value>SKU</value>
   </data>
   <data name="Stock" xml:space="preserve">
     <value>Ombor</value>

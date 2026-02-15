@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using SmartShop.Application.Interfaces;
 using SmartShop.Application.Services;
@@ -7,6 +8,7 @@ using SmartShop.Infrastructure.DependencyInjection;
 using SmartShop.Infrastructure.Identity;
 using SmartShop.Infrastructure.Persistence;
 using SmartShop.Web.Middleware;
+using System.Globalization;
 using System.Security.Claims;
 
 
@@ -58,13 +60,23 @@ builder.Services.AddScoped<IAuditService, AuditService>();
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
+var supportedCultureCodes = new[] { "uz", "en" };
+var supportedCultures = supportedCultureCodes
+    .Select(culture => new CultureInfo(culture))
+    .ToList();
+
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
-    var supportedCultures = new[] { "uz", "en" };
+    options.DefaultRequestCulture = new RequestCulture("uz");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
 
-    options.SetDefaultCulture("uz");
-    options.AddSupportedCultures(supportedCultures);
-    options.AddSupportedUICultures(supportedCultures);
+    options.RequestCultureProviders = new IRequestCultureProvider[]
+    {
+        new QueryStringRequestCultureProvider(),
+        new CookieRequestCultureProvider(),
+        new AcceptLanguageHeaderRequestCultureProvider()
+    };
 });
 builder.Services
     .AddControllersWithViews()
