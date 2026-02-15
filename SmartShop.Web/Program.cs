@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SmartShop.Application.Interfaces;
 using SmartShop.Application.Services;
 using SmartShop.Domain.Entities;
+using SmartShop.Infrastructure.DependencyInjection;
 using SmartShop.Infrastructure.Identity;
 using SmartShop.Infrastructure.Persistence;
 using SmartShop.Web.Middleware;
@@ -12,20 +13,7 @@ using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Connection
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddScoped<IAppDbContext>(provider =>
-    provider.GetRequiredService<AppDbContext>());
-
-// Identity
-builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
-{
-    options.SignIn.RequireConfirmedAccount = false;
-})
-.AddRoles<IdentityRole>()
-.AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -221,7 +209,3 @@ static async Task SeedDataAsync(WebApplication app)
         await userManager.AddToRoleAsync(secondUser, roleName);
     }
 }
-
-
-
-

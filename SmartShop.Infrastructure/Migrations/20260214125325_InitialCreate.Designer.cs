@@ -12,8 +12,8 @@ using SmartShop.Infrastructure.Persistence;
 namespace SmartShop.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260212094221_InitialCleanMultiTenant")]
-    partial class InitialCleanMultiTenant
+    [Migration("20260214125325_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -104,12 +104,10 @@ namespace SmartShop.Infrastructure.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("text");
@@ -146,12 +144,10 @@ namespace SmartShop.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Value")
                         .HasColumnType("text");
