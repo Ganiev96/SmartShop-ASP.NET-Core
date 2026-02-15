@@ -33,20 +33,32 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>, IAppDbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        ApplyGlobalQueryFilters(modelBuilder);
+        ApplySoftDeleteAndTenantFilters(modelBuilder);
     }
 
-    private void ApplyGlobalQueryFilters(ModelBuilder modelBuilder)
+    private void ApplySoftDeleteAndTenantFilters(ModelBuilder modelBuilder)
     {
-        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
-        {
-            var filter = BuildFilterExpression(entityType);
-            if (filter != null)
-            {
-                modelBuilder.Entity(entityType.ClrType).HasQueryFilter(filter);
-            }
-        }
+        // 🔹 PRODUCT
+        modelBuilder.Entity<Product>()
+            .HasQueryFilter(e =>
+                !e.IsDeleted &&
+                (!CurrentShopId.HasValue || e.ShopId == CurrentShopId));
+
+        // 🔹 PURCHASE
+        modelBuilder.Entity<Purchase>()
+            .HasQueryFilter(e =>
+                !e.IsDeleted &&
+                (!CurrentShopId.HasValue || e.ShopId == CurrentShopId));
+
+        // 🔹 SALE
+        modelBuilder.Entity<Sale>()
+            .HasQueryFilter(e =>
+                !e.IsDeleted &&
+                (!CurrentShopId.HasValue || e.ShopId == CurrentShopId));
+
+       
     }
+
 
     private LambdaExpression? BuildFilterExpression(IMutableEntityType entityType)
     {

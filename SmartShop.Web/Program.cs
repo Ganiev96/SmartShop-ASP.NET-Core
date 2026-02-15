@@ -14,6 +14,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructure(builder.Configuration);
 
+builder.Services
+    .AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+
+
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Events.OnSigningIn = async context =>
@@ -96,7 +102,11 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 
-await SeedDataAsync(app);
+if (app.Environment.IsDevelopment())
+{
+    await SeedDataAsync(app);
+}
+
 
 
 app.Run();
@@ -123,6 +133,7 @@ static async Task SeedDataAsync(WebApplication app)
     // 2️⃣ FIRST SHOP
     // ================================
     var firstShop = await dbContext.Shops
+        .IgnoreQueryFilters()
         .FirstOrDefaultAsync(s => s.Name == "Main Shop");
 
     if (firstShop == null)
@@ -167,6 +178,7 @@ static async Task SeedDataAsync(WebApplication app)
     // 3️⃣ SECOND SHOP
     // ================================
     var secondShop = await dbContext.Shops
+        .IgnoreQueryFilters()
         .FirstOrDefaultAsync(s => s.Name == "Second Shop");
 
     if (secondShop == null)
