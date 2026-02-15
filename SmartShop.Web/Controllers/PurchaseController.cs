@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SmartShop.Application.DTOs;
 using SmartShop.Application.Interfaces;
 
 [Authorize]
@@ -23,25 +24,25 @@ public class PurchaseController : Controller
     public async Task<IActionResult> Create()
     {
         ViewBag.Products = await _productService.GetAllAsync();
-        return View();
-    }
 
-    [HttpPost]
-    public async Task<IActionResult> Create(int productId, int quantity, decimal unitPrice)
-    {
-        var dto = new CreatePurchaseDto
+        return View(new CreatePurchaseDto
         {
             SupplierName = "Test Supplier",
             Items = new List<PurchaseItemDto>
             {
-                new PurchaseItemDto
-                {
-                    ProductId = productId,
-                    Quantity = quantity,
-                    UnitPrice = unitPrice
-                }
+                new PurchaseItemDto()
             }
-        };
+        });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create(CreatePurchaseDto dto)
+    {
+        if (!ModelState.IsValid)
+        {
+            ViewBag.Products = await _productService.GetAllAsync();
+            return View(dto);
+        }
 
         await _purchaseService.CreateAsync(dto);
 

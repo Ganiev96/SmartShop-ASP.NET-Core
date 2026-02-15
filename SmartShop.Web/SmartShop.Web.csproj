@@ -20,4 +20,8 @@
 		<ProjectReference Include="..\SmartShop.Infrastructure\SmartShop.Infrastructure.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Data\" />
+	</ItemGroup>
+
 </Project>

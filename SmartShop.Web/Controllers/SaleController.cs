@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SmartShop.Application.DTOs;
 using SmartShop.Application.Interfaces;
 
 [Authorize]
@@ -23,23 +24,24 @@ public class SaleController : Controller
     public async Task<IActionResult> Create()
     {
         ViewBag.Products = await _productService.GetAllAsync();
-        return View();
-    }
 
-    [HttpPost]
-    public async Task<IActionResult> Create(int productId, int quantity)
-    {
-        var dto = new CreateSaleDto
+        return View(new CreateSaleDto
         {
             Items = new List<SaleItemDto>
             {
-                new SaleItemDto
-                {
-                    ProductId = productId,
-                    Quantity = quantity
-                }
+                new SaleItemDto()
             }
-        };
+        });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create(CreateSaleDto dto)
+    {
+        if (!ModelState.IsValid)
+        {
+            ViewBag.Products = await _productService.GetAllAsync();
+            return View(dto);
+        }
 
         await _saleService.CreateAsync(dto);
 

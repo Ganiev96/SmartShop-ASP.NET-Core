@@ -7,7 +7,6 @@ using SmartShop.Infrastructure.DependencyInjection;
 using SmartShop.Infrastructure.Identity;
 using SmartShop.Infrastructure.Persistence;
 using SmartShop.Web.Middleware;
-using SmartShop.Web.Services;
 using System.Security.Claims;
 
 
@@ -48,7 +47,6 @@ builder.Services.AddScoped<IPurchaseService, PurchaseService>();
 builder.Services.AddScoped<ISaleService, SaleService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 builder.Services.AddScoped<IAuditService, AuditService>();
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");

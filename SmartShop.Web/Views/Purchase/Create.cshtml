@@ -1,29 +1,41 @@
-﻿@{
+﻿@model SmartShop.Application.DTOs.CreatePurchaseDto
+@{
     var products = ViewBag.Products as List<SmartShop.Domain.Entities.Product>;
 }
 
 <h2>Create Purchase</h2>
 
-<form method="post">
+<form asp-action="Create" method="post">
+    <div>
+        <label asp-for="SupplierName"></label>
+        <input asp-for="SupplierName" />
+        <span asp-validation-for="SupplierName" style="color:red"></span>
+    </div>
+
     <div>
         <label>Product</label>
-        <select name="productId">
-            @foreach (var p in products)
+        <select asp-for="Items[0].ProductId">
+            @foreach (var p in products ?? new List<SmartShop.Domain.Entities.Product>())
             {
                 <option value="@p.Id">@p.Name</option>
             }
         </select>
+        <span asp-validation-for="Items[0].ProductId" style="color:red"></span>
     </div>
 
     <div>
         <label>Quantity</label>
-        <input name="quantity" type="number" />
+        <input asp-for="Items[0].Quantity" type="number" />
+        <span asp-validation-for="Items[0].Quantity" style="color:red"></span>
     </div>
 
     <div>
         <label>Unit Price</label>
-        <input name="unitPrice" type="number" step="0.01" />
+        <input asp-for="Items[0].UnitPrice" type="number" step="0.01" />
+        <span asp-validation-for="Items[0].UnitPrice" style="color:red"></span>
     </div>
 
     <button type="submit">Save</button>
 </form>
+
+<partial name="_ValidationScriptsPartial" />

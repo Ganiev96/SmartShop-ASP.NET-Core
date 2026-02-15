@@ -1,7 +1,8 @@
 ﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using SmartShop.Application.Interfaces;
 
-namespace SmartShop.Web.Services;
+namespace SmartShop.Infrastructure.Services;
 
 public class CurrentUserService : ICurrentUserService
 {
@@ -25,8 +26,9 @@ public class CurrentUserService : ICurrentUserService
                 .User?
                 .FindFirst("ShopId")?.Value;
 
-            return shopIdClaim != null ? Guid.Parse(shopIdClaim) : null;
+            return Guid.TryParse(shopIdClaim, out var shopId)
+                ? shopId
+                : null;
         }
     }
-
 }
