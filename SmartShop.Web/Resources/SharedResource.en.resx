@@ -240,4 +240,13 @@
 	<data name="SalesEmptyMessage" xml:space="preserve">
     <value>Sales history is not available yet. For now, you can create a new sale.</value>
   </data>
+	<data name="Logout" xml:space="preserve">
+  <value>Logout</value>
+</data>
+	<data name="Manage" xml:space="preserve">
+  <value>Manage account</value>
+</data>
+	<data name="DeleteConfirm" xml:space="preserve">
+  <value>Are you sure you want to delete this item?</value>
+</data>
 </root>

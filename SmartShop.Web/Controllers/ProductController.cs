@@ -15,9 +15,9 @@ public class ProductController : Controller
         _productService = productService;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(int page = 1, int pageSize = 20)
     {
-        var products = await _productService.GetAllAsync();
+        var products = await _productService.GetPagedAsync(page, pageSize);
         return View(products);
     }
 
@@ -27,6 +27,7 @@ public class ProductController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CreateProductDto dto)
     {
         if (!ModelState.IsValid)
@@ -37,6 +38,8 @@ public class ProductController : Controller
     }
 
     [Authorize(Roles = "Owner")]
+    [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete(int id)
     {
         await _productService.DeleteAsync(id);

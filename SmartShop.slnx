@@ -3,4 +3,6 @@
   <Project Path="SmartShop.Domain/SmartShop.Domain.csproj" />
   <Project Path="SmartShop.Infrastructure/SmartShop.Infrastructure.csproj" />
   <Project Path="SmartShop.Web/SmartShop.Web.csproj" />
+  <Project Path="SmartShop.Application.Tests/SmartShop.Application.Tests.csproj" />
+  <Project Path="SmartShop.Web.IntegrationTests/SmartShop.Web.IntegrationTests.csproj" />
 </Solution>

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SmartShop.Application.Interfaces;
 using SmartShop.Application.Services;
@@ -11,7 +12,6 @@ using SmartShop.Web.Middleware;
 using System.Globalization;
 using System.Security.Claims;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -21,7 +21,6 @@ builder.Services
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultUI()
     .AddDefaultTokenProviders();
-
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -37,25 +36,24 @@ builder.Services.ConfigureApplicationCookie(options =>
         {
             var claimsIdentity = (ClaimsIdentity)context.Principal.Identity!;
 
-            // Old ShopId claimni olib tashlaymiz (agar mavjud bo‘lsa)
             var existingClaim = claimsIdentity.FindFirst("ShopId");
             if (existingClaim != null)
+            {
                 claimsIdentity.RemoveClaim(existingClaim);
+            }
 
-            // Yangi ShopId claim qo‘shamiz
-            claimsIdentity.AddClaim(
-                new Claim("ShopId", user.ShopId.ToString()));
+            claimsIdentity.AddClaim(new Claim("ShopId", user.ShopId.ToString()));
         }
     };
 });
 
-
 builder.Services.AddRazorPages();
+builder.Services.AddMemoryCache();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IPurchaseService, PurchaseService>();
 builder.Services.AddScoped<ISaleService, SaleService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
-builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IAuditService, AuditService>();
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
@@ -71,21 +69,24 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.SupportedCultures = supportedCultures;
     options.SupportedUICultures = supportedCultures;
 
-    options.RequestCultureProviders = new IRequestCultureProvider[]
-    {
+    options.RequestCultureProviders =
+    [
         new QueryStringRequestCultureProvider(),
         new CookieRequestCultureProvider(),
         new AcceptLanguageHeaderRequestCultureProvider()
-    };
+    ];
 });
+
 builder.Services
-    .AddControllersWithViews()
+    .AddControllersWithViews(options =>
+    {
+        options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+    })
     .AddViewLocalization()
     .AddDataAnnotationsLocalization();
 
 var app = builder.Build();
 
-// Pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -103,11 +104,9 @@ var localizationOptions = app.Services
 
 app.UseRequestLocalization(localizationOptions);
 
-
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
 
 app.MapControllerRoute(
     name: "default",
@@ -119,8 +118,6 @@ if (app.Environment.IsDevelopment())
 {
     await SeedDataAsync(app);
 }
-
-
 
 app.Run();
 
@@ -134,17 +131,11 @@ static async Task SeedDataAsync(WebApplication app)
 
     const string roleName = "Owner";
 
-    // ================================
-    // 1️⃣ CREATE ROLE
-    // ================================
     if (!await roleManager.RoleExistsAsync(roleName))
     {
         await roleManager.CreateAsync(new IdentityRole(roleName));
     }
 
-    // ================================
-    // 2️⃣ FIRST SHOP
-    // ================================
     var firstShop = await dbContext.Shops
         .IgnoreQueryFilters()
         .FirstOrDefaultAsync(s => s.Name == "Main Shop");
@@ -161,8 +152,8 @@ static async Task SeedDataAsync(WebApplication app)
         await dbContext.SaveChangesAsync();
     }
 
-    const string adminEmail = "admin@mail.com";
-    const string adminPassword = "Admin123!";
+    var adminEmail = app.Configuration["Seed:AdminEmail"] ?? "admin@mail.com";
+    var adminPassword = app.Configuration["Seed:AdminPassword"] ?? "Admin123!";
 
     var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
@@ -179,7 +170,9 @@ static async Task SeedDataAsync(WebApplication app)
         var result = await userManager.CreateAsync(adminUser, adminPassword);
 
         if (!result.Succeeded)
+        {
             throw new Exception("Failed to create first admin");
+        }
     }
 
     if (!await userManager.IsInRoleAsync(adminUser, roleName))
@@ -187,9 +180,6 @@ static async Task SeedDataAsync(WebApplication app)
         await userManager.AddToRoleAsync(adminUser, roleName);
     }
 
-    // ================================
-    // 3️⃣ SECOND SHOP
-    // ================================
     var secondShop = await dbContext.Shops
         .IgnoreQueryFilters()
         .FirstOrDefaultAsync(s => s.Name == "Second Shop");
@@ -206,8 +196,8 @@ static async Task SeedDataAsync(WebApplication app)
         await dbContext.SaveChangesAsync();
     }
 
-    const string secondEmail = "admin2@mail.com";
-    const string secondPassword = "Admin123!";
+    var secondEmail = app.Configuration["Seed:SecondAdminEmail"] ?? "admin2@mail.com";
+    var secondPassword = app.Configuration["Seed:SecondAdminPassword"] ?? "Admin123!";
 
     var secondUser = await userManager.FindByEmailAsync(secondEmail);
 
@@ -224,7 +214,9 @@ static async Task SeedDataAsync(WebApplication app)
         var result = await userManager.CreateAsync(secondUser, secondPassword);
 
         if (!result.Succeeded)
+        {
             throw new Exception("Failed to create second admin");
+        }
     }
 
     if (!await userManager.IsInRoleAsync(secondUser, roleName))
@@ -232,3 +224,5 @@ static async Task SeedDataAsync(WebApplication app)
         await userManager.AddToRoleAsync(secondUser, roleName);
     }
 }
+
+public partial class Program { }

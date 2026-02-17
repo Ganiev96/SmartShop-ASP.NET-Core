@@ -38,16 +38,20 @@ public class SaleService : ISaleService
             _context.Sales.Add(sale);
             await _context.SaveChangesAsync();
 
+            var productIds = dto.Items.Select(i => i.ProductId).Distinct().ToList();
+            var products = await _context.Products
+                .Where(p => productIds.Contains(p.Id))
+                .ToDictionaryAsync(p => p.Id);
+
             decimal totalAmount = 0;
             decimal totalProfit = 0;
 
             foreach (var item in dto.Items)
             {
-                var product = await _context.Products
-                    .FirstOrDefaultAsync(p => p.Id == item.ProductId);
-
-                if (product == null)
+                if (!products.TryGetValue(item.ProductId, out var product))
+                {
                     throw new BusinessException("Product not found.");
+                }
 
                 if (!product.IsActive)
                     throw new BusinessException("Inactive product cannot be sold.");
@@ -76,12 +80,11 @@ public class SaleService : ISaleService
 
                 _context.SaleItems.Add(saleItem);
 
-                // STOCK DECREASE
                 product.QuantityInStock -= item.Quantity;
 
-                // STOCK MOVEMENT
                 _context.StockMovements.Add(new StockMovement
-                {ShopId = _currentUserService.ShopId!.Value,
+                {
+                    ShopId = _currentUserService.ShopId!.Value,
                     ProductId = product.Id,
                     Type = StockMovementType.Out,
                     Quantity = item.Quantity,
@@ -93,9 +96,9 @@ public class SaleService : ISaleService
             sale.TotalAmount = totalAmount;
             sale.TotalProfit = totalProfit;
 
-            // CASH TRANSACTION (Income)
             _context.CashTransactions.Add(new CashTransaction
-            {ShopId = _currentUserService.ShopId!.Value,
+            {
+                ShopId = _currentUserService.ShopId!.Value,
                 Type = CashTransactionType.Income,
                 Amount = totalAmount,
                 ReferenceType = "Sale",

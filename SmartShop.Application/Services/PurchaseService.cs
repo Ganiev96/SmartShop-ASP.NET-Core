@@ -37,15 +37,19 @@ public class PurchaseService : IPurchaseService
             _context.Purchases.Add(purchase);
             await _context.SaveChangesAsync();
 
+            var productIds = dto.Items.Select(i => i.ProductId).Distinct().ToList();
+            var products = await _context.Products
+                .Where(p => productIds.Contains(p.Id))
+                .ToDictionaryAsync(p => p.Id);
+
             decimal totalAmount = 0;
 
             foreach (var item in dto.Items)
             {
-                var product = await _context.Products
-                    .FirstOrDefaultAsync(p => p.Id == item.ProductId);
-
-                if (product == null)
+                if (!products.TryGetValue(item.ProductId, out var product))
+                {
                     throw new Exception("Product not found");
+                }
 
                 var subTotal = item.Quantity * item.UnitPrice;
                 totalAmount += subTotal;
@@ -61,10 +65,8 @@ public class PurchaseService : IPurchaseService
 
                 _context.PurchaseItems.Add(purchaseItem);
 
-                // STOCK INCREASE
                 product.QuantityInStock += item.Quantity;
 
-                // STOCK MOVEMENT
                 _context.StockMovements.Add(new StockMovement
                 {
                     ShopId = _currentUserService.ShopId!.Value,
@@ -78,7 +80,6 @@ public class PurchaseService : IPurchaseService
 
             purchase.TotalAmount = totalAmount;
 
-            // CASH TRANSACTION
             _context.CashTransactions.Add(new CashTransaction
             {
                 ShopId = _currentUserService.ShopId!.Value,

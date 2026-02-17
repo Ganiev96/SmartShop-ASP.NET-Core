@@ -8,6 +8,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Data\**" />
+	  <Content Remove="Data\**" />
+	  <EmbeddedResource Remove="Data\**" />
+	  <None Remove="Data\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.24" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.24" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.24" />
@@ -18,10 +25,6 @@
 		<ProjectReference Include="..\SmartShop.Application\SmartShop.Application.csproj" />
 		<ProjectReference Include="..\SmartShop.Domain\SmartShop.Domain.csproj" />
 		<ProjectReference Include="..\SmartShop.Infrastructure\SmartShop.Infrastructure.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Data\" />
 	</ItemGroup>
 
 </Project>

@@ -3,33 +3,43 @@
     ViewData["Title"] = Localizer["CreateProduct"];
 }
 
-<h2>@Localizer["CreateProduct"]</h2>
+<h2 class="mb-3">@Localizer["CreateProduct"]</h2>
 
-<form asp-action="Create" method="post">
-    <div>
-        <label>@Localizer["Name"]</label>
-        <input asp-for="Name" />
+<form asp-action="Create" method="post" class="card card-body shadow-sm border-0">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">@Localizer["Name"]</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
-    <div>
-        <label>@Localizer["SKU"]</label>
-        <input asp-for="SKU" />
+    <div class="mb-3">
+        <label asp-for="SKU" class="form-label">@Localizer["SKU"]</label>
+        <input asp-for="SKU" class="form-control" />
+        <span asp-validation-for="SKU" class="text-danger"></span>
     </div>
 
-    <div>
-        <label>@Localizer["PurchasePrice"]</label>
-        <input asp-for="PurchasePrice" />
+    <div class="mb-3">
+        <label asp-for="PurchasePrice" class="form-label">@Localizer["PurchasePrice"]</label>
+        <input asp-for="PurchasePrice" class="form-control" type="number" step="0.01" />
+        <span asp-validation-for="PurchasePrice" class="text-danger"></span>
     </div>
 
-    <div>
-        <label>@Localizer["SalePrice"]</label>
-        <input asp-for="SalePrice" />
+    <div class="mb-3">
+        <label asp-for="SalePrice" class="form-label">@Localizer["SalePrice"]</label>
+        <input asp-for="SalePrice" class="form-control" type="number" step="0.01" />
+        <span asp-validation-for="SalePrice" class="text-danger"></span>
     </div>
 
-    <div>
-        <label>@Localizer["MinimumStock"]</label>
-        <input asp-for="MinimumStockLevel" />
+    <div class="mb-3">
+        <label asp-for="MinimumStockLevel" class="form-label">@Localizer["MinimumStock"]</label>
+        <input asp-for="MinimumStockLevel" class="form-control" type="number" />
+        <span asp-validation-for="MinimumStockLevel" class="text-danger"></span>
     </div>
 
-    <button type="submit">@Localizer["Save"]</button>
+    <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
 </form>
+
+<partial name="_ValidationScriptsPartial" />

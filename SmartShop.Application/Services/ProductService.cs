@@ -7,6 +7,8 @@ namespace SmartShop.Application.Services;
 
 public class ProductService : IProductService
 {
+    private const int MaxPageSize = 100;
+
     private readonly IAppDbContext _context;
     private readonly IAuditService _auditService;
     private readonly ICurrentUserService _currentUserService;
@@ -46,9 +48,26 @@ public class ProductService : IProductService
         return product;
     }
 
-    public async Task<List<Product>> GetAllAsync()
+    public async Task<PagedResult<Product>> GetPagedAsync(int page = 1, int pageSize = 20)
     {
-        return await _context.Products.ToListAsync();
+        page = Math.Max(1, page);
+        pageSize = Math.Clamp(pageSize, 1, MaxPageSize);
+
+        var query = _context.Products.AsNoTracking().OrderBy(p => p.Name);
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return new PagedResult<Product>
+        {
+            Items = items,
+            Page = page,
+            PageSize = pageSize,
+            TotalCount = totalCount
+        };
     }
 
     public async Task<Product?> GetByIdAsync(int id)

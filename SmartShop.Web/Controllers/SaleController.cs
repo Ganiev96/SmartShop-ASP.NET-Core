@@ -23,23 +23,24 @@ public class SaleController : Controller
 
     public async Task<IActionResult> Create()
     {
-        ViewBag.Products = await _productService.GetAllAsync();
+        ViewBag.Products = (await _productService.GetPagedAsync(page: 1, pageSize: 200)).Items;
 
         return View(new CreateSaleDto
         {
             Items = new List<SaleItemDto>
-            {
-                new SaleItemDto()
-            }
+        {
+            new SaleItemDto()
+        }
         });
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CreateSaleDto dto)
     {
         if (!ModelState.IsValid)
         {
-            ViewBag.Products = await _productService.GetAllAsync();
+            ViewBag.Products = (await _productService.GetPagedAsync(page: 1, pageSize: 200)).Items;
             return View(dto);
         }
 
@@ -47,4 +48,5 @@ public class SaleController : Controller
 
         return RedirectToAction(nameof(Index));
     }
+
 }

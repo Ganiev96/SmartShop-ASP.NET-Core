@@ -240,4 +240,13 @@
 	<data name="SalesEmptyMessage" xml:space="preserve">
     <value>Sotuvlar tarixi hali mavjud emas. Hozircha yangi sotuv yaratishingiz mumkin.</value>
   </data>
+	<data name="Logout" xml:space="preserve">
+  <value>Chiqish</value>
+</data>
+	<data name="Manage" xml:space="preserve">
+  <value>Profilni boshqarish</value>
+</data>
+	<data name="DeleteConfirm" xml:space="preserve">
+  <value>Ushbu elementni o'chirishga ishonchingiz komilmi?</value>
+</data>
 </root>
