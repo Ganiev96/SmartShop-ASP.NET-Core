@@ -28,7 +28,7 @@ flowchart LR
   Infra[SmartShop.Infrastructure] --> App
   Infra --> Domain
   Web --> Infra
-
+```
 ## Ishga tushirish (local)
   appsettings.json ichida ConnectionStrings:DefaultConnection ni sozlang.
   Migrationni qo'llang.
